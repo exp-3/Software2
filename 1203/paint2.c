@@ -219,14 +219,17 @@ void print_canvas(FILE *fp)
 
     for (y = 0; y < HEIGHT; y++) {
         for (x = 0; x < WIDTH; x++) {
-            /*char c = ' ';
-            if(grayscale > 0) {
-                c = '#';
-            }
-            fputc(c, fp);*/
             const char c = ' ';
-            fprintf(fp, "\033[48;2;%d;%d;%dm%c\033[0m",
-                    canvas[x][y].r, canvas[x][y].g, canvas[x][y].b, c);
+
+            int r, g, b;
+            r = canvas[x][y].r;
+            g = canvas[x][y].g;
+            b = canvas[x][y].b;
+
+            int color = 0;
+            color = 16 + 6 * r / 256 * 36+ 6 * g / 256 * 6 + 6 * b / 256;
+
+            fprintf(fp, "\033[48;5;%dm%c\033[0m", color, c);
         }
         fputc('\n', fp);
     }
